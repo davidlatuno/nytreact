@@ -2,9 +2,9 @@ import React from "react";
 
 const Card = props => 
 
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title text-center">{props.title}</h5>
+<div className="card">
+  <div className="card-body">
+    <h5 className="card-title text-center">{props.title}</h5>
     <div>{props.body}</div>
   </div>
 </div>

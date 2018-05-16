@@ -1,21 +1,47 @@
-import React from "react";
+import React, { Component } from "react";
 import Jumbotron from "./components/Jumbotron"
 import Card from "./components/Card";
-import Search from "./components/Search"
+import Search from "./components/Search";
+import API from "./utils/API";
 
-const App = () =>
+class App extends Component {
 
-    <div className="container-fluid">
-
-        <Jumbotron />
-
-        <Card title="Search" body={<Search/>}/>
-
-        <Card title="Results" body={<h1>Nothing Found</h1>} />
-
-        <Card title="Saved" body={<h1>Nothing Found</h1>} />
+    state = {
+        search: "california",
+        results: []
+    }
 
 
-    </div>
+    componentDidMount() {
+        API.getArticles(this.state.search)
+            .then(res => this.setState({
+                results: res.data
+            }))
+            .then(() => {console.log(this.state.results)})
+            .catch(err => console.log(err));
+    }
+
+
+    render() {
+
+
+        return (
+            <div className="container-fluid">
+
+                <Jumbotron />
+
+                <Card title="Search" body={<Search />} />
+
+                <Card title="Results" />
+
+                <Card title="Saved" body={<h1>Nothing Found</h1>} />
+
+
+            </div>
+        )
+    }
+}
+
+
 
 export default App;
