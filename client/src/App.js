@@ -8,7 +8,7 @@ class App extends Component {
 
     state = {
         search: "california",
-        results: []
+        results: {}
     }
 
 
@@ -32,7 +32,7 @@ class App extends Component {
 
                 <Card title="Search" body={<Search />} />
 
-                <Card title="Results" />
+                <Card title="Results" body={this.state.results.response ? this.state.results.response.docs[0].headline.main : "Nothing Found"}/>
 
                 <Card title="Saved" body={<h1>Nothing Found</h1>} />
 
