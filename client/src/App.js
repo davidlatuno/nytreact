@@ -3,6 +3,7 @@ import Jumbotron from "./components/Jumbotron"
 import Card from "./components/Card";
 import Search from "./components/Search";
 import API from "./utils/API";
+import moment from "moment";
 
 class App extends Component {
 
@@ -60,9 +61,10 @@ class App extends Component {
 
     };
 
-    saveArticle = (title, url) => {
+    saveArticle = (title, date, url) => {
         API.createSaved({
             title: title,
+            date: date,
             url: url
         })
             .then(res => { console.log(res) })
@@ -98,7 +100,8 @@ class App extends Component {
                         this.state.results.response.docs.map(input =>
                             <Card
                                 title={input.headline.main}
-                                body={<div><div>`Published: ${input.pub_date} Url: ${input.web_url}`</div> <button type="button" className="btn btn-success" onClick={() => this.saveArticle(input.headline.main, input.web_url)}>Save</button></div>} />)
+                                body={<div><p>Published: {moment(input.pub_date).format('MMMM Do, YYYY')}</p>
+                                    <p><a target="_blank" href={input.web_url}>Article Link</a></p> <button type="button" className="btn btn-success" onClick={() => this.saveArticle(input.headline.main, input.pub_date, input.web_url)}>Save</button></div>} />)
                         : "Nothing Found"} />
 
                 <Card
@@ -107,7 +110,12 @@ class App extends Component {
                         this.state.saved.map(input =>
                             <Card
                                 title={input.title}
-                                body={<button type="button" className="btn btn-danger" onClick={() => this.deleteBook(input._id)}>Delete</button>} />)
+                                body={
+
+                                    <div><p>Published: {moment(input.date).format('MMMM Do, YYYY')}</p>
+                                        <p><a target="_blank" href={input.url}>Article Link</a></p>
+
+                                        <button type="button" className="btn btn-danger" onClick={() => this.deleteBook(input._id)}>Delete</button> </div>} />)
                         : "Nothing Found"} />
 
             </div>
