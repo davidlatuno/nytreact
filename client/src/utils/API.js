@@ -1,8 +1,12 @@
 import axios from "axios";
 
 export default {
+    getArticlesWithYear: function(search, start, end) {
+        return axios.get(`https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=b5fe66c8adcd495790816ca899dfefad&q=${search}&begin_date=${start}&end_date${end}`);
+    },
+
     getArticles: function(search) {
-        return axios.get("https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=b5fe66c8adcd495790816ca899dfefad&q=" + search);
+        return axios.get(`https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=b5fe66c8adcd495790816ca899dfefad&q=${search}`);
     },
 
     createSaved: function(article) {

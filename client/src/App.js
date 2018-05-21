@@ -8,8 +8,8 @@ class App extends Component {
 
     state = {
         search: "",
-        startYear: "",
-        endYear: "",
+        yearStart: "",
+        yearEnd: "",
         results: {},
         saved: []
     }
@@ -40,12 +40,24 @@ class App extends Component {
     // When the form is submitted, search the OMDB API for the value of `this.state.search`
     handleFormSubmit = event => {
         event.preventDefault();
-        API.getArticles(this.state.search)
-            .then(res => this.setState({
-                results: res.data
-            }))
-            .then(() => { console.log(this.state.results) })
-            .catch(err => console.log(err));
+
+        if (this.state.yearEnd === "" && this.state.yearStart === "") {
+            API.getArticles(this.state.search)
+                .then(res => this.setState({
+                    results: res.data
+                }))
+                .then(() => { console.log(this.state.results) })
+                .catch(err => console.log(err));
+
+        } else {
+            API.getArticlesWithYear(this.state.search, this.state.yearStart, this.state.yearEnd)
+                .then(res => this.setState({
+                    results: res.data
+                }))
+                .then(() => { console.log(this.state.results) })
+                .catch(err => console.log(err));
+        }
+
     };
 
     saveArticle = (title, url) => {
@@ -74,8 +86,8 @@ class App extends Component {
                 <Card
                     title="Search"
                     body={<Search search={this.state.search}
-                        start={this.state.startYear}
-                        end={this.state.endYear}
+                        start={this.state.yearStart}
+                        end={this.state.yearEnd}
                         handleInput={this.handleInputChange}
                         handleClick={this.handleFormSubmit} />}
                 />
